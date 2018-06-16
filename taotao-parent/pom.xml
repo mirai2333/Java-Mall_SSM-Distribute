@@ -14,7 +14,7 @@
 		<mybatis.spring.version>1.2.2</mybatis.spring.version>
 		<mybatis.paginator.version>1.2.15</mybatis.paginator.version>
 		<mysql.version>5.1.32</mysql.version>
-		<slf4j.version>1.6.4</slf4j.version>
+		<slf4j.version>1.7.25</slf4j.version>
 		<jackson.version>2.4.2</jackson.version>
 		<druid.version>1.0.9</druid.version>
 		<httpclient.version>4.3.5</httpclient.version>
@@ -36,9 +36,16 @@
 		<activemq.version>5.11.2</activemq.version>
 		<freemarker.version>2.3.23</freemarker.version>
 		<quartz.version>2.2.2</quartz.version>
+		<fastdfs-client.version>1.27-SNAPSHOT</fastdfs-client.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
+			<!-- 图片上传 -->
+			<dependency>
+			<groupId>org.csource</groupId>
+			<artifactId>fastdfs-client-java</artifactId>
+			<version>${fastdfs-client.version}</version>
+			</dependency>
 			<!-- 时间操作组件 -->
 			<dependency>
 				<groupId>joda-time</groupId>
@@ -86,12 +93,11 @@
 				<version>${junit.version}</version>
 				<scope>test</scope>
 			</dependency>
-			<!-- 日志处理 -->
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-log4j12</artifactId>
-				<version>${slf4j.version}</version>
-			</dependency>
+<!-- 			<dependency> -->
+<!-- 				<groupId>org.slf4j</groupId> -->
+<!-- 				<artifactId>slf4j-log4j12</artifactId> -->
+<!-- 				<version>${slf4j.version}</version> -->
+<!-- 			</dependency> -->
 			<!-- Mybatis的分页插件 -->
 			<dependency>
 				<groupId>org.mybatis</groupId>
@@ -233,16 +239,16 @@
 				</configuration>
 			</plugin>
 			<!-- java编译插件 -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.2</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-					<encoding>UTF-8</encoding>
-				</configuration>
-			</plugin>
+<!-- 			<plugin> -->
+<!-- 				<groupId>org.apache.maven.plugins</groupId> -->
+<!-- 				<artifactId>maven-compiler-plugin</artifactId> -->
+<!-- 				<version>3.2</version> -->
+<!-- 				<configuration> -->
+<!-- 					<source>1.7</source> -->
+<!-- 					<target>1.7</target> -->
+<!-- 					<encoding>UTF-8</encoding> -->
+<!-- 				</configuration> -->
+<!-- 			</plugin> -->
 		</plugins>
 		<pluginManagement>
 			<plugins>
