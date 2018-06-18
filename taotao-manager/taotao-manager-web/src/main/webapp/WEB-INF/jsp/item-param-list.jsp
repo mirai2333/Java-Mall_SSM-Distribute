@@ -45,13 +45,13 @@
         		url : "/item-param-add",
         	});
         }
-    },{
+    },/*{
         text:'编辑',
         iconCls:'icon-edit',
         handler:function(){
         	$.messager.alert('提示','该功能未实现!');
         }
-    },{
+    },*/{
         text:'删除',
         iconCls:'icon-cancel',
         handler:function(){

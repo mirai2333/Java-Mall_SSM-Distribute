@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.taotao.mapper.custom.ItemParamMapper">
+	<resultMap type="com.taotao.pojo.custom.ItemParamCustom" id="ItemParamCustomMap">
+		<id column="id" property="id"/>
+		<result column="item_cat_id" property="itemCatId"/>
+		<result column="name" property="itemCatName"/>
+		<result column="param_data" property="paramData"/>
+		<result column="created" property="created"/>
+		<result column="updated" property="updated"/>
+	</resultMap>
+
+	<select id="queryItemParam" resultMap="ItemParamCustomMap">
+		SELECT a.id,a.item_cat_id,b.`name`,a.param_data,a.created,a.updated FROM tb_item_param a,tb_item_cat b WHERE a.item_cat_id=b.id
+	</select>
+</mapper>
