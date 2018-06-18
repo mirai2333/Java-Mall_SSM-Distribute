@@ -13,9 +13,12 @@ import com.taotao.common.pojo.TaotaoResult;
 import com.taotao.common.utils.IDUtils;
 import com.taotao.mapper.TbItemDescMapper;
 import com.taotao.mapper.TbItemMapper;
+import com.taotao.mapper.TbItemParamItemMapper;
+import com.taotao.mapper.TbItemParamMapper;
 import com.taotao.pojo.TbItem;
 import com.taotao.pojo.TbItemDesc;
 import com.taotao.pojo.TbItemExample;
+import com.taotao.pojo.TbItemParamItem;
 import com.taotao.service.ItemService;
 
 @Service
@@ -25,6 +28,8 @@ public class ItemServiceImpl implements ItemService {
 	private TbItemMapper tbItemMapper;
 	@Autowired
 	private TbItemDescMapper tbItemDescMapper;
+	@Autowired
+	private TbItemParamItemMapper tbItemParamItemMapper;
 	
 	/**
 	 * 根据商品ID查询商品
@@ -55,7 +60,7 @@ public class ItemServiceImpl implements ItemService {
 	 * 添加商品
 	 */
 	@Override
-	public TaotaoResult createItem(TbItem item, String desc) {
+	public TaotaoResult createItem(TbItem item, String desc, String itemParams) {
 		//补全商品信息，并插入商品表
 		Long itemId = IDUtils.genItemId();
 		item.setId(itemId);
@@ -74,6 +79,14 @@ public class ItemServiceImpl implements ItemService {
 		tbItemDesc.setCreated(date);
 		tbItemDesc.setUpdated(date);
 		tbItemDescMapper.insert(tbItemDesc);
+		
+		//补全商品规格参数，并插入商品规格参数表
+		TbItemParamItem itemParamItem = new TbItemParamItem();
+		itemParamItem.setItemId(itemId);
+		itemParamItem.setParamData(itemParams);
+		itemParamItem.setCreated(date);
+		itemParamItem.setUpdated(date);
+		tbItemParamItemMapper.insert(itemParamItem);
 		return TaotaoResult.ok();
 	}
 
