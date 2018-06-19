@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * 
  * @ClassName: TaotaoResult
- * @Description: TODO(淘淘商城自定义响应结构)
+ * @Description: 淘淘商城自定义响应结构
  * @author 汪本成
  * @date 2016年8月10日 上午2:19:33
  *

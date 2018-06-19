@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/javascript; charset=UTF-8" pageEncoding="UTF-8"%>
 <table class="easyui-datagrid" id="itemList" title="商品列表" 
        data-options="singleSelect:false,collapsible:true,pagination:true,url:'/item/list',method:'get',pageSize:30,toolbar:toolbar">
     <thead>
@@ -17,7 +17,7 @@
         </tr>
     </thead>
 </table>
-<div id="itemEditWindow" class="easyui-window" title="编辑商品" data-options="modal:true,closed:true,iconCls:'icon-save',href:'/rest/page/item-edit'" style="width:80%;height:80%;padding:10px;">
+<div id="itemEditWindow" class="easyui-window" title="编辑商品" data-options="modal:true,closed:true,iconCls:'icon-save',href:'/item-edit'" style="width:80%;height:80%;padding:10px;">
 </div>
 <script>
 
@@ -62,8 +62,8 @@
         			// 加载商品描述
         			$.getJSON('/rest/item/query/item/desc/'+data.id,function(_data){
         				if(_data.status == 200){
-        					//UM.getEditor('itemeEditDescEditor').setContent(_data.data.itemDesc, false);
-        					itemEditEditor.html(_data.data.itemDesc);
+        					//UM.getEditor('itemeEditDescEditor').setContent(_data.data, false);
+        					itemEditEditor.html(_data.data);
         				}
         			});
         			
