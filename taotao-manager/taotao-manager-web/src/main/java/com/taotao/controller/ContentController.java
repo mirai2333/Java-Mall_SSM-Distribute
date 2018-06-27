@@ -1,12 +1,14 @@
 package com.taotao.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.taotao.common.pojo.EasyUIDataGridResult;
 import com.taotao.common.pojo.TaotaoResult;
+import com.taotao.common.utils.HttpClientUtil;
 import com.taotao.pojo.TbContent;
 import com.taotao.service.ContentService;
 
@@ -16,6 +18,11 @@ public class ContentController {
 	
 	@Autowired
 	private ContentService contentService;
+	
+	@Value("${REST_BASE_URL}")
+	private String REST_BASE_URL;
+	@Value("${REST_CONTENT_SYNC_PATH}")
+	private String REST_CONTENT_SYNC_PATH;
 	
 	@RequestMapping("/list")
 	@ResponseBody
@@ -27,14 +34,18 @@ public class ContentController {
 	@RequestMapping("/save")
 	@ResponseBody
 	public TaotaoResult saveTbContent(TbContent tbContent) {
-		return contentService.saveTbContent(tbContent);
+		TaotaoResult taotaoResult = contentService.saveTbContent(tbContent);
+		HttpClientUtil.doGet(REST_BASE_URL + REST_CONTENT_SYNC_PATH + tbContent.getCategoryId());
+		return taotaoResult;
 	}
 	
 	//编辑内容
 	@RequestMapping("/edit")
 	@ResponseBody
 	public TaotaoResult updateTbContent(TbContent tbContent) {
-		return contentService.updateTbContent(tbContent);
+		TaotaoResult taotaoResult = contentService.updateTbContent(tbContent);
+		HttpClientUtil.doGet(REST_BASE_URL + REST_CONTENT_SYNC_PATH + tbContent.getCategoryId());
+		return taotaoResult;
 	}
 	
 	//删除内容

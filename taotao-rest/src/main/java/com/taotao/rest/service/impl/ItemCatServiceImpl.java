@@ -3,12 +3,17 @@ package com.taotao.rest.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.taotao.common.pojo.TaotaoResult;
+import com.taotao.common.utils.JsonUtils;
 import com.taotao.mapper.TbItemCatMapper;
 import com.taotao.pojo.TbItemCat;
 import com.taotao.pojo.TbItemCatExample;
+import com.taotao.rest.component.JedisClient;
 import com.taotao.rest.pojo.CatNode;
 import com.taotao.rest.pojo.ItemCatResult;
 import com.taotao.rest.service.ItemCatService;
@@ -18,12 +23,38 @@ public class ItemCatServiceImpl implements ItemCatService {
 
 	@Autowired
 	private TbItemCatMapper tbItemCatMapper;
+	@Autowired
+	private JedisClient jedisClient;
+	
+	@Value("${REDIS_SIDE_CONTENT_CAT_KEY}")
+	private String REDIS_SIDE_CONTENT_CAT_KEY;
 
 	@Override
-	public ItemCatResult getItemCatList() {
+	public String getItemCatList() {
+		
+		//先插缓存
+		try {
+			String resultJson = jedisClient.get(REDIS_SIDE_CONTENT_CAT_KEY);
+			if(!StringUtils.isBlank(resultJson)) {
+				return resultJson;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		//查询数据库
 		ItemCatResult result = new ItemCatResult();
 		result.setData(getItemCatList(0l));
-		return result;
+		String resultJson = JsonUtils.objectToJson(result);
+		
+		//数据缓存
+		try {
+			jedisClient.set("REDIS_SIDE_CONTENT_CAT_KEY", resultJson);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return resultJson;
 	}
 
 	// 递归查询商品类目
@@ -59,6 +90,12 @@ public class ItemCatServiceImpl implements ItemCatService {
 			}
 		}
 		return itemCatResult;
+	}
+
+	@Override
+	public TaotaoResult sideContentCatCacheDelete() {
+		jedisClient.del(REDIS_SIDE_CONTENT_CAT_KEY);
+		return TaotaoResult.ok();
 	}
 
 }

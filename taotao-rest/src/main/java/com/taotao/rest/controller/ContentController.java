@@ -16,9 +16,20 @@ public class ContentController {
 	@Autowired
 	private ContentService contentService;
 	
-	@RequestMapping("/list/{id}")
+	@RequestMapping("/list/{cid}")
 	@ResponseBody
-	public TaotaoResult findContentByCatId(@PathVariable Long id) {
-		return TaotaoResult.ok(contentService.findTbContents(id));
+	public TaotaoResult findContentByCatId(@PathVariable Long cid) {
+		return TaotaoResult.ok(contentService.findTbContents(cid));
+	}
+	
+	//内容缓存同步服务
+	@RequestMapping("/cachesync/{cid}")
+	@ResponseBody
+	public TaotaoResult contentCacheSync(@PathVariable Long cid) {
+		try {
+			return contentService.contentCacheDelete(cid);
+		} catch (Exception e) {
+			return TaotaoResult.build(500, "根据分类id的内容缓存同步失败！");
+		}
 	}
 }
